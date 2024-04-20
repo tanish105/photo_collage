@@ -14,6 +14,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   List<XFile>? _imageFiles; // Store picked images
 
+  void _pickImagesAndNavigate() async {
+    await _pickImages();
+    _navigateToDisplayPhotosScreen();
+  }
+
   Future<void> _pickImages() async {
     final picker = ImagePicker();
     final pickedImages = await picker.pickMultiImage(); // Pick multiple images
@@ -36,12 +41,12 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Photo Collage App'),
+        backgroundColor: Colors.deepPurple[200],
       ),
       body: Center(
         child: ElevatedButton(
           onPressed: () {
-            _pickImages();
-            _navigateToDisplayPhotosScreen();
+            _pickImagesAndNavigate();
           }, // Call _pickImages method when button is pressed
           child: const Text('Pick Images'),
         ),

@@ -4,10 +4,23 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 
-class DisplayPhotosScreen extends StatelessWidget {
+class DisplayPhotosScreen extends StatefulWidget {
+  const DisplayPhotosScreen({Key? key, this.selectedPhotos}) : super(key: key);
+
   final List<XFile>? selectedPhotos;
 
-  const DisplayPhotosScreen({Key? key, this.selectedPhotos}) : super(key: key);
+  @override
+  _DisplayPhotosScreenState createState() => _DisplayPhotosScreenState();
+}
+
+class _DisplayPhotosScreenState extends State<DisplayPhotosScreen> {
+  List<XFile>? _selectedPhotos;
+
+  @override
+  void initState() {
+    super.initState();
+    _selectedPhotos = widget.selectedPhotos;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -15,8 +28,8 @@ class DisplayPhotosScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Selected Photos'),
       ),
-      body: selectedPhotos != null && selectedPhotos!.isNotEmpty
-          ? _buildCollage(context, selectedPhotos!)
+      body: _selectedPhotos != null && _selectedPhotos!.isNotEmpty
+          ? _buildCollage(context, _selectedPhotos!)
           : Center(
               child: Text('No photos selected.'),
             ),
@@ -249,7 +262,7 @@ class DisplayPhotosScreen extends StatelessWidget {
                 top: 400,
                 left: 30,
                 child: Transform.rotate(
-                  angle: 0.0, 
+                  angle: 0.0,
                   child: ClipRRect(
                     borderRadius:
                         BorderRadius.circular(10.0), // Make square shape
@@ -280,14 +293,14 @@ class DisplayPhotosScreen extends StatelessWidget {
                 bottom: 40,
                 right: 20,
                 child: Container(
-                  padding: EdgeInsets.all(8.0),
+                  padding: const EdgeInsets.all(8.0),
                   decoration: BoxDecoration(
                     color: Colors.black.withOpacity(0.7),
                     borderRadius: BorderRadius.circular(10.0),
                   ),
                   child: Text(
                     "+ $remainingPhotos",
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: Colors.white,
                       fontSize: 32.0,
                       fontWeight: FontWeight.bold,
